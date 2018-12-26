@@ -8,6 +8,7 @@
 gradle
 gradle/*
 gradle.properties
+gradle*
 
 #build
 out
