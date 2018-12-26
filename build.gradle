@@ -1,18 +1,43 @@
 plugins {
     id 'java'
     id 'idea'
+    id 'maven'
 }
 
 group 'com.github.tubus'
-version '1.1-SNAPSHOT'
+version '1.1'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url "http://93.180.54.196:8080/repository/release" }
+    maven { url "http://93.180.54.196:8080/repository/snapshot" }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+uploadArchives {
+    dependsOn 'clean'
+    dependsOn 'build'
+    tasks.findByName('build').mustRunAfter 'clean'
+    repositories {
+        mavenDeployer {
+            addFilter('jar') { artifact, file ->
+                println "Uploadling: ${artifact}, ${file}"
+                return true
+            }
+            repository(
+                    url: "${archivaUrl}/repository/release") {
+                authentication(userName: archivaUsername, password: archivaPassword)
+            }
+            snapshotRepository(
+                    url: "${archivaUrl}/repository/snapshot") {
+                authentication(userName: archivaUsername, password: archivaPassword)
+            }
+        }
+    }
 }
