@@ -1,6 +1,7 @@
 package com.github.mujum.aggregate;
 
 import com.github.mujum.current.CurrentHotTest;
+import static com.github.mujum.utils.TextUtils.printMessageModuleStatus;
 
 /**
  * @author mujum
@@ -26,9 +27,9 @@ public class AggregateEngine {
 
     public static void run() {
         for(int index = 0; index < currentModules.length; index++) {
-            System.out.println("\n#\nModule: " + currentModules[index].name() + " - started\n#\n#\n#\n#\n");
+            printMessageModuleStatus(currentModules[index].name(), true);
             entry(currentModules[index]);
-            System.out.println("\n#\n#\n#\n#\nModule: " + currentModules[index].name() + " - completed\n#\n");
+            printMessageModuleStatus(currentModules[index].name(), false);
         }
     }
 
